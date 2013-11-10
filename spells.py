@@ -19,7 +19,7 @@ class Heal: #heals the player if they are within a radius of 2, otherwise does n
 		creatures = self.effects.getNouns()
 		for i in creatures:
 			if i.__class__.__name__=="Player":
-				if (i.x-self.x)**2+(i.y-self.y)**2 <= 2:
+				if (i.x-self.effect.x)**2+(i.y-self.effect.y)**2 <= 2:
 					self.end = 0
 					self.effects.healWithinRadius(5,2)
 				else:
@@ -43,6 +43,6 @@ class SpiralAttack: #spirals outward from the player, deals 10 damage to mobs if
 		creatures = self.effects.getNouns()
 		for i in creatures:
 			if i.__class__.__name__=="Mob":
-				if (i.x-self.x)**2+(i.y-self.y)**2 <= 4:
+				if (i.x-self.effect.x)**2+(i.y-self.effect.y)**2 <= 4:
 					self.effects.doDamageWithinRadius(10,4)
 		return self.ticks <=100
