@@ -65,8 +65,8 @@ class Spell:
             if i.__class__.__name__=="Mob":
                 if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
                     i.health-=damage
-                    self.game.player.energy-=radius+damage
-     def healWithinRadius(self,heal,radius):
+	                    self.game.player.energy-=radius+damage
+    def healWithinRadius(self,heal,radius):
         for i in self.game.nouns:
             if i.__class__.__name__=="Player":
                 if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
