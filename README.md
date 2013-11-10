@@ -1,4 +1,4 @@
-SrcError (in Python)
+srcerr (in Python)
 ====================
 
 A simple RPG where hacking is magic.
@@ -11,4 +11,4 @@ Are you a programmer who secretly wishes to be a wizard?
 
 Do you want to learn programming and magic at the same time?
 
-*Well, SrcError is the game for you and everyone you know and everyone else!*
+*Well, srcerr is the game for you and everyone you know and everyone else!*
