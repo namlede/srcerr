@@ -50,10 +50,15 @@ class Spell:
     def doDamgeWithinRadius(self,damage,radius):
         for i in self.game.nouns:
             if i.__class__.__name__=="Mob":
-                if i.x**2+i.y**2<=radius**2:
-                    i.health-=amount
+                if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
+                    i.health-=damage
                     self.game.player.energy-=radius+damage
-                    
+     def healWithinRadius(self,heal,radius):
+        for i in self.game.nouns:
+            if i.__class__.__name__=="Player":
+                if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
+                    i.health+=heal
+                    self.game.player.energy-=radius+heal
     def changeVelocity(self,xChangeChange,yChangeChange):
         self.xChange+=xChangeChange
         self.yChange+=yChangeChange
