@@ -3,6 +3,7 @@ Sprites
 
 The Enemy
 ---------
+![mini enemy](https://dl.dropboxusercontent.com/u/55042565/protomobsmall.png)
 ![mob](https://dl.dropboxusercontent.com/u/55042565/protomob.png)
 
 The Player
