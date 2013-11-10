@@ -32,3 +32,5 @@ Heal: This spell stays still. If the player is on top of the spell, the player w
 If the player stays away for 50 ticks, then the spell stops.
 
 *It is important to stop spells or limit their power so your energy doesn't run out!*
+
+![srcerr](https://dl.dropboxusercontent.com/u/55042565/logo.png)
