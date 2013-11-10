@@ -7,6 +7,7 @@ The Enemy
 
 The Player
 ----------
+![mini wizard](https://dl.dropboxusercontent.com/u/55042565/wizardmagickingsmall.png)
 ![wizard standing towards right](https://dl.dropboxusercontent.com/u/55042565/wizardmagicking.png)
 ![wizard standing towards left](https://dl.dropboxusercontent.com/u/55042565/wizardmagickingleft.png)
 ![wizard walking to the right 1](https://dl.dropboxusercontent.com/u/55042565/wizardwalking.png)
