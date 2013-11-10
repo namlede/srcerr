@@ -43,6 +43,5 @@ class SpiralAttack: #spirals outward from the player, deals 10 damage to mobs if
 		for i in self.game.nouns:
 			if i.__class__.__name__=="Mob":
 				if (i.x-self.x)**2+(i.y-self.y)**2 <= 4:
-					self.end = 0
 					self.effects.doDamageWithinRadius(10,4)
 		return self.ticks <=100
