@@ -18,7 +18,7 @@ class Heal: #heals the player if they are within a radius of 100, otherwise does
                 self.effects=newEffects
                 self.end = 0
         def run(self):
-                if (self.effects.getX()-self.effects.x)**2+(self.effects.getY()-self.effects.y)**2 <= 100:
+                if (self.effects.getPlayerX()-self.effects.x)**2+(self.effects.getPlayerY()-self.effects.y)**2 <= 100:
                         self.end = 0
                         self.effects.healWithinRadius(50,100)
                 else:
