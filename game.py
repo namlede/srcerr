@@ -60,7 +60,7 @@ class Spell:
         self.userSpell.run()
     def getNouns(self):
         return self.game.nouns
-    def doDamgeWithinRadius(self,damage,radius):
+    def doDamageWithinRadius(self,damage,radius):
         for i in self.game.nouns:
             if i.__class__.__name__=="Mob":
                 if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
