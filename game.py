@@ -14,7 +14,10 @@ class Sprite:
         global screen
 	screen.blit(self.bitmap, (self.x, self.y))
 class Mob:
-    def __init__(self):
+    def __init__(self,newGame):
+        self.game = newGame
+        self.radius = 100
+        self.damage = 100
         self.x=20
         self.y=400
         self.health=10000
@@ -27,25 +30,30 @@ class Mob:
             if(not i.run()):
                 del self.states[a]
             a+=1
+	if not (self.health>0):
+		raise "You killed the mob!!!"
+		print "WIN"
+		print 4/0 
+        if (self.game.player.x-self.x)**2+(self.game.player.y-self.y)**2<=self.radius**2:
+                self.game.player.health -= self.damage
         
         return self.health>0
 class Player:
     def __init__(self):
         self.x=20
         self.y=400
-        self.energy=1000
+        self.energy=50000
         self.health=10000
         self.states=[]
 
     def run(self):
-        self.energy+=10
-        self.health+=10
-        a=0
-        for i in self.states:
-            if(not i.run()):
-                del self.states[a]
-            a+=1
-        return self.health>0 and self.energy>0
+        self.energy+=100
+        self.health+=0
+	if self.health < 0 or self.energy < 0:
+		raise "You died."
+		print "DIE"
+		print 4/0
+		return False
 class Spell:
     def __init__(self,newGame):
         self.game=newGame
@@ -58,21 +66,18 @@ class Spell:
     def run(self):
         self.x+=self.xvelocity
         self.y+=self.yvelocity
-        return self.userSpell.run()
+        self.alive = self.userSpell.run()
+        return self.alive
     def getNouns(self):
         return self.game.nouns
     def doDamageWithinRadius(self,damage,radius):
-        for i in self.game.nouns:
-            if i.__class__.__name__=="Mob":
-                if i.x**2+i.y**2<=radius**2:
-                    i.health-=amount
-                    self.game.player.energy-=radius+damage
+        if (self.game.mob.x-self.x)**2+(self.game.mob.y-self.y)**2<=radius**2:
+            self.game.mob.health-=damage
+            self.game.player.energy-=radius+damage
     def healWithinRadius(self,heal,radius):
-        for i in self.game.nouns:
-            if i.__class__.__name__=="Player":
-                if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
-                    i.health+=heal
-                    self.game.player.energy-=radius+heal
+        if (self.game.player.x-self.x)**2+(self.game.player.y-self.y)**2<=radius**2:
+            self.game.player.health+=heal
+            self.game.player.energy-=radius+heal
     def changeVelocity(self,xChangeChange,yChangeChange):
         self.xvelocity+=xChangeChange
         self.yvelocity+=yChangeChange
@@ -86,7 +91,7 @@ class Game:
         self.playerSprite = Sprite(20, 400, 'player.png')
         self.mobSprite = Sprite(20, 400, 'mob.png')
         self.player=Player()
-        self.mob=Mob()
+        self.mob=Mob(self)
         self.nouns=[self.player,self.mob]
         self.spellList=self.getSpells()
         self.activeSpells=[]
@@ -131,9 +136,10 @@ class Game:
         for i in self.nouns:
             if(not i.run()):
                 del self.nouns[a]
+        self.player.run()
         if True:
-            self.mobSprite.x-=int(0.1*(self.mob.x-self.player.x))
-            self.mobSprite.y-=int(0.1*(self.mob.y-self.player.y))
+            self.mobSprite.x-=int(0.02*(self.mob.x-self.player.x))
+            self.mobSprite.y-=int(0.02*(self.mob.y-self.player.y))
             self.mob.x=self.mobSprite.x
             self.mob.y=self.mobSprite.y
         iterer=0
@@ -150,10 +156,10 @@ class Game:
         a+=1
         self.mobSprite.render()
         self.playerSprite.render()
-        print [self.player.energy,self.player.health,self.mob.health]
+        print ["Energy: " + str(self.player.energy), "Health: " + str(self.player.health), "Mob Health: " + str(self.mob.health)]
         display.update()
 	time.delay(5)
-screen = display.set_mode((1024,768))
+screen = display.set_mode((768,768))
 a=Game()
 for i in range(100000):
     a.run()
