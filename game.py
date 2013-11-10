@@ -70,6 +70,10 @@ class Spell:
         return self.alive
     def getNouns(self):
         return self.game.nouns
+    def getPlayerX(self):
+    	return self.game.player.x
+    def getPlayerY(self):
+    	return self.game.player.y
     def doDamageWithinRadius(self,damage,radius):
         if (self.game.mob.x-self.x)**2+(self.game.mob.y-self.y)**2<=radius**2:
             self.game.mob.health-=damage
