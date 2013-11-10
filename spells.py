@@ -5,7 +5,7 @@ class Attack: #shoots out a fiereball that deals 4 damage to all mobs within rad
 		self.ticks = 0
 	def run(self):
 		self.ticks += 1
-		if self.ticks = 1:
+		if self.ticks == 1:
 			self.effects.changeVelocity(10,10)
 		self.effects.doDamageWithinRadius(4,3)
 		return self.ticks <=100
