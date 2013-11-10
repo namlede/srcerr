@@ -1,4 +1,5 @@
 from pygame import *
+import math
 import spells
 class Sprite:
     def __init__(self, xpos, ypos, filename):
@@ -23,7 +24,7 @@ class Mob:
     def run(self):
         a=0
         for i in self.states:
-            if(!i.run()):
+            if(not i.run()):
                 del self.states[a]
             a+=1
         
@@ -41,10 +42,10 @@ class Player:
         self.health+=10
         a=0
         for i in self.states:
-            if(!i.run()):
+            if(not i.run()):
                 del self.states[a]
             a+=1
-        return self.health>0
+        return self.health>0 and self.energy>0
 class Spell:
     def __init__(self,newGame):
         self.game=newGame
@@ -55,17 +56,17 @@ class Spell:
     def setSpell(self,newUserSpell):
         self.userSpell=newUserSpell
     def run(self):
-        self.x+=self.xveloctiy
-        self.y+=self.yveloctiy
-        self.userSpell.run()
+        self.x+=self.xvelocity
+        self.y+=self.yvelocity
+        return self.userSpell.run()
     def getNouns(self):
         return self.game.nouns
     def doDamageWithinRadius(self,damage,radius):
         for i in self.game.nouns:
             if i.__class__.__name__=="Mob":
-                if (i.x-self.x)**2+(i.y-self.y)**2<=radius**2:
-                    i.health-=damage
-	                    self.game.player.energy-=radius+damage
+                if i.x**2+i.y**2<=radius**2:
+                    i.health-=amount
+                    self.game.player.energy-=radius+damage
     def healWithinRadius(self,heal,radius):
         for i in self.game.nouns:
             if i.__class__.__name__=="Player":
@@ -73,8 +74,8 @@ class Spell:
                     i.health+=heal
                     self.game.player.energy-=radius+heal
     def changeVelocity(self,xChangeChange,yChangeChange):
-        self.xChange+=xChangeChange
-        self.yChange+=yChangeChange
+        self.xvelocity+=xChangeChange
+        self.yvelocity+=yChangeChange
         self.game.player.energy-=xChangeChange+yChangeChange
 class Game:
     def __init__(self):
@@ -87,11 +88,11 @@ class Game:
         self.player=Player()
         self.mob=Mob()
         self.nouns=[self.player,self.mob]
-        self.spells=getSpells()
+        self.spellList=self.getSpells()
         self.activeSpells=[]
     def cast(self,index):
         a=Spell(self)
-        b=spells[index](a)
+        b=self.spellList[index](a)
         a.setSpell(b)
         self.nouns.append(a)
         self.activeSpells.append([Sprite(self.playerSprite.x,self.playerSprite.y,'spell.png'),a])
@@ -102,9 +103,10 @@ class Game:
         return ret
     def run(self):
         global screen
+        backdrop = image.load('backdrop.bmp')
         screen.blit(backdrop, (0, 0))
 	for ourevent in event.get():
-	    if ourevent.type == pygameQUIT:
+	    if ourevent.type == QUIT:
 		quit = 1
 	    if ourevent.type == KEYDOWN:
 		if ourevent.key == K_RIGHT:
@@ -114,34 +116,44 @@ class Game:
 		    self.playerSprite.x -=20
                     self.player.x -= 20
                 if ourevent.key == K_DOWN:
-		    self.playerSprite.y -=20
-                    self.player.y -= 20
-                if ourevent.key == K_UP:
 		    self.playerSprite.y +=20
                     self.player.y += 20
+                if ourevent.key == K_UP:
+		    self.playerSprite.y -=20
+                    self.player.y -= 20
 		if ourevent.key == K_1:
-		    self.cast(1)
+		    self.cast(0)
 		if ourevent.key == K_2:
-		    self.cast(2)
+		    self.cast(1)
 		if ourevent.key == K_3:
-		    self.cast(3)
+		    self.cast(2)
         a=0
-        for i in nouns:
+        for i in self.nouns:
             if(not i.run()):
-                del nouns[a]
-        scale=100/((self.mob.x-self.player.x)**2+(self.mob.y-self.player.y)**2)
-        self.mobSprite.x=scale*(self.mob.x-self.player.x)+20
-        self.mobSprite.y=scale*(self.mob.y-self.player.y)+400
-        self.mob.x=self.mobSprite.x
-        self.mob.y=self.mobSprite.y
+                del self.nouns[a]
+        if True:
+            self.mobSprite.x-=int(0.1*(self.mob.x-self.player.x))
+            self.mobSprite.y-=int(0.1*(self.mob.y-self.player.y))
+            self.mob.x=self.mobSprite.x
+            self.mob.y=self.mobSprite.y
+        iterer=0
         for i in self.activeSpells:
+            k=i[1].run()
+            if(not k):
+                del self.activeSpells[iterer]
+                break
             i[0].x=i[1].x
             i[0].y=i[1].y
             i[0].render()
+            iterer+=1
+            
         a+=1
         self.mobSprite.render()
         self.playerSprite.render()
-        
+        print [self.player.energy,self.player.health,self.mob.health]
         display.update()
 	time.delay(5)
-screen = display.set_mode((640,480))
+screen = display.set_mode((1024,768))
+a=Game()
+for i in range(100000):
+    a.run()
