@@ -1,6 +1,10 @@
 Sprites
 =======
 
+Background
+----------
+![background image](https://dl.dropboxusercontent.com/u/55042565/background.png)
+
 The Enemy
 ---------
 ![mini enemy](https://dl.dropboxusercontent.com/u/55042565/protomobsmall.png)
