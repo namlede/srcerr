@@ -26,7 +26,7 @@ class Heal: #heals the player if they are within a radius of 2, otherwise does n
 					self.end += 1
 		return self.end <=1000
 
-class SpiralAttack:
+class SpiralAttack: #spirals outward from the player, deals 10 damage to mobs if any are within a radius of 4
 	def __init__(self,newEffects):
 		self.effects=newEffects
 		self.ticks = 0
